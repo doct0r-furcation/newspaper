@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Daily Chronicle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1a1a1a;
+            --paper: #f8f6f1;
+            --accent: #8b0000;
+            --border: #d4d0c8;
+            --subtle: #6b6b6b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Text', serif;
+            background: var(--paper);
+            color: var(--ink);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Decorative border around page */
+        .page-frame {
+            border: 8px double var(--border);
+            margin: 20px;
+            background: var(--paper);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        header {
+            border-bottom: 4px solid var(--ink);
+            padding: 40px 60px 20px;
+            position: relative;
+        }
+
+        .date-weather {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            font-family: 'Libre Baskerville', serif;
+            color: var(--subtle);
+        }
+
+        .masthead {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .masthead h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            border-top: 2px solid var(--ink);
+            border-bottom: 2px solid var(--ink);
+            padding: 15px 0;
+            position: relative;
+        }
+
+        .masthead h1::before,
+        .masthead h1::after {
+            content: '❧';
+            position: absolute;
+            font-size: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .masthead h1::before {
+            left: 20px;
+        }
+
+        .masthead h1::after {
+            right: 20px;
+        }
+
+        .tagline {
+            font-style: italic;
+            font-size: 0.95rem;
+            color: var(--subtle);
+            letter-spacing: 2px;
+        }
+
+        .edition-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+            font-family: 'Libre Baskerville', serif;
+        }
+
+        main {
+            padding: 40px 60px;
+        }
+
+        .lead-story {
+            border-bottom: 3px double var(--border);
+            padding-bottom: 40px;
+            margin-bottom: 40px;
+        }
+
+        .lead-story h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+        }
+
+        .lead-story .byline {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--subtle);
+            margin-bottom: 20px;
+            font-family: 'Libre Baskerville', serif;
+        }
+
+        .lead-story .byline strong {
+            color: var(--ink);
+            font-weight: 700;
+        }
+
+        .lead-story .lede {
+            font-size: 1.3rem;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            font-family: 'Crimson Text', serif;
+        }
+
+        .columns {
+            columns: 3;
+            column-gap: 40px;
+            column-rule: 1px solid var(--border);
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        .columns p {
+            margin-bottom: 16px;
+            font-size: 1.05rem;
+        }
+
+        .columns p:first-of-type::first-letter {
+            font-size: 4rem;
+            font-weight: 700;
+            float: left;
+            line-height: 0.85;
+            margin: 5px 8px 0 0;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .grid-stories {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 3px double var(--border);
+        }
+
+        .story {
+            animation: fadeIn 0.8s ease-out backwards;
+        }
+
+        .story:nth-child(1) { animation-delay: 0.1s; }
+        .story:nth-child(2) { animation-delay: 0.2s; }
+        .story:nth-child(3) { animation-delay: 0.3s; }
+
+        .story h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1.2;
+            border-left: 3px solid var(--accent);
+            padding-left: 12px;
+        }
+
+        .story .byline {
+            font-size: 0.85rem;
+            color: var(--subtle);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-family: 'Libre Baskerville', serif;
+        }
+
+        .story p {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .sidebar {
+            border: 2px solid var(--ink);
+            padding: 20px;
+            margin: 40px 0;
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.03) 0%, rgba(139, 0, 0, 0.01) 100%);
+        }
+
+        .sidebar h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            padding: 8px 0;
+            border-bottom: 1px dotted var(--border);
+            font-size: 0.95rem;
+        }
+
+        .sidebar li:last-child {
+            border-bottom: none;
+        }
+
+        footer {
+            border-top: 4px solid var(--ink);
+            padding: 30px 60px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--subtle);
+            margin-top: 60px;
+        }
+
+        .advertisement {
+            border: 3px double var(--ink);
+            padding: 30px;
+            text-align: center;
+            margin: 40px 0;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(139, 0, 0, 0.02) 10px,
+                rgba(139, 0, 0, 0.02) 20px
+            );
+        }
+
+        .advertisement h5 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Newspaper texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            pointer-events: none;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.1) 2px, rgba(0,0,0,.1) 4px);
+            z-index: 1000;
+        }
+
+        @media (max-width: 1024px) {
+            .columns {
+                columns: 2;
+            }
+            .grid-stories {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .masthead h1 {
+                font-size: 3.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-frame {
+                margin: 10px;
+            }
+            header, main, footer {
+                padding: 20px 30px;
+            }
+            .columns {
+                columns: 1;
+            }
+            .grid-stories {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .masthead h1 {
+                font-size: 2.5rem;
+            }
+            .masthead h1::before,
+            .masthead h1::after {
+                display: none;
+            }
+            .lead-story h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-frame">
+        <header>
+            <div class="date-weather">
+                <span>Sunday, January 12, 2026</span>
+                <span>Fair • 42°F</span>
+            </div>
+            <div class="masthead">
+                <h1>The Daily Chronicle</h1>
+                <p class="tagline">"All the News Worth Reading"</p>
+            </div>
+            <div class="edition-info">
+                <span>Vol. CXXXIV, No. 47,892</span>
+                <span>Price: $3.50</span>
+            </div>
+        </header>
+
+        <main>
+            <article class="lead-story">
+                <h2>Historic Climate Agreement Reached at Global Summit</h2>
+                <p class="byline">By <strong>Margaret Chen</strong> • International Affairs</p>
+                <p class="lede">
+                    Leaders from 175 nations have unanimously adopted the most comprehensive climate action framework in history, 
+                    pledging unprecedented cooperation to address rising global temperatures.
+                </p>
+                <div class="columns">
+                    <p>
+                        After twelve days of intense negotiations in Geneva, Switzerland, world leaders emerged with a binding 
+                        agreement that experts are calling a watershed moment in international environmental policy. The accord 
+                        commits signatory nations to reducing carbon emissions by 60% below 2020 levels by 2040, with interim 
+                        checkpoints every five years.
+                    </p>
+                    <p>
+                        "This represents not just a promise, but a fundamental restructuring of how nations approach industrial 
+                        development and energy consumption," said UN Secretary-General Maria Santos during the closing ceremony. 
+                        The agreement includes enforceable mechanisms for compliance, with economic incentives for nations that 
+                        exceed their targets and graduated consequences for those who fall short.
+                    </p>
+                    <p>
+                        Perhaps most notably, the treaty establishes a $500 billion Green Transition Fund, financed through 
+                        contributions from developed nations, to support developing countries in adopting renewable energy 
+                        infrastructure. "We cannot ask emerging economies to sacrifice their development," explained German 
+                        Chancellor Andreas Müller. "Instead, we're providing the resources to ensure they can grow sustainably 
+                        from the start."
+                    </p>
+                    <p>
+                        The scientific community has welcomed the agreement with cautious optimism. Dr. Yuki Tanaka, lead climate 
+                        scientist at the International Panel on Climate Change, noted that while the targets are ambitious, they 
+                        align with what's necessary to limit global temperature rise to 1.5 degrees Celsius above pre-industrial 
+                        levels. However, she emphasized that success will depend entirely on implementation and enforcement.
+                    </p>
+                </div>
+            </article>
+
+            <div class="sidebar">
+                <h4>Inside This Edition</h4>
+                <ul>
+                    <li><strong>Opinion:</strong> The Future of Democratic Governance • Page A8</li>
+                    <li><strong>Business:</strong> Tech Sector Sees Unexpected Rally • Page B1</li>
+                    <li><strong>Culture:</strong> New Exhibition Explores Digital Art • Page C3</li>
+                    <li><strong>Sports:</strong> Championship Series Heads to Game 7 • Page D1</li>
+                    <li><strong>Science:</strong> Breakthrough in Quantum Computing • Page E4</li>
+                </ul>
+            </div>
+
+            <div class="grid-stories">
+                <article class="story">
+                    <h3>Local Education Board Approves Major Curriculum Reform</h3>
+                    <p class="byline">Sarah Williams</p>
+                    <p>
+                        The Metropolitan School Board voted 7-2 yesterday to implement sweeping changes to the district's 
+                        curriculum, introducing new courses in digital literacy, environmental science, and critical thinking 
+                        skills beginning next fall semester.
+                    </p>
+                </article>
+
+                <article class="story">
+                    <h3>Archaeological Discovery Rewrites Ancient History</h3>
+                    <p class="byline">Dr. James Patterson</p>
+                    <p>
+                        Researchers excavating near the Mediterranean coast have uncovered evidence of a previously unknown 
+                        civilization dating back 4,000 years, complete with advanced irrigation systems and written language 
+                        that predates known scripts.
+                    </p>
+                </article>
+
+                <article class="story">
+                    <h3>Downtown Revitalization Project Enters Final Phase</h3>
+                    <p class="byline">Michael Torres</p>
+                    <p>
+                        City officials celebrated the completion of the new Central Park plaza yesterday, marking the final 
+                        major milestone in the decade-long downtown renewal initiative. The $2.3 billion project has 
+                        transformed the urban core.
+                    </p>
+                </article>
+            </div>
+
+            <div class="advertisement">
+                <h5>Pennington & Sons Fine Timepieces</h5>
+                <p style="font-style: italic; margin: 10px 0;">Crafting Precision Since 1847</p>
+                <p style="font-size: 0.9rem;">Visit our showroom at 42 Madison Avenue</p>
+            </div>
+
+            <div class="grid-stories">
+                <article class="story">
+                    <h3>Healthcare Initiative Expands to Rural Communities</h3>
+                    <p class="byline">Jennifer Brooks</p>
+                    <p>
+                        A new state-funded program will bring mobile medical clinics to underserved rural areas, providing 
+                        preventive care, vaccinations, and basic health services to an estimated 50,000 residents who 
+                        previously lacked easy access to healthcare facilities.
+                    </p>
+                </article>
+
+                <article class="story">
+                    <h3>Symphony Orchestra Announces Centennial Season</h3>
+                    <p class="byline">Robert Chang</p>
+                    <p>
+                        The Philharmonic Society will celebrate its 100th anniversary with a special season featuring 
+                        world premieres of commissioned works alongside beloved classics. Guest conductors from five 
+                        continents will lead performances throughout the year.
+                    </p>
+                </article>
+
+                <article class="story">
+                    <h3>Transportation Authority Unveils Electric Fleet</h3>
+                    <p class="byline">David Kumar</p>
+                    <p>
+                        The city's public bus system will complete its transition to fully electric vehicles by March, 
+                        making it one of the largest zero-emission transit networks in the nation. Officials project annual 
+                        savings of $12 million in fuel and maintenance costs.
+                    </p>
+                </article>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 The Daily Chronicle Publishing Company. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.8rem;">
+                Printed on 100% recycled paper • Established 1892 • Published daily except Sundays and holidays
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
